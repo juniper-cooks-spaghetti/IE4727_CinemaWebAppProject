@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Bookings - CineBox</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header Navigation -->
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo">CineBox</div>
+            <ul class="nav-menu">
+                <li><a href="#" class="nav-link">Home</a></li>
+                <li><a href="#" class="nav-link">Catalogue</a></li>
+                <li><a href="#" class="nav-link">My Bookings</a></li>
+            </ul>
+            <div class="user-icon"></div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <section class="bookings-container">
+            <h1 class="page-title">My Bookings</h1>
+            
+            <!-- Booking Items List -->
+            <div class="booking-list">
+                <div class="booking-item">
+                    <div class="movie-poster placeholder"></div>
+                    <div class="booking-details">
+                        <h2 class="movie-title">Oppenheimer</h2>
+                        <p class="screening-info">Fri, 20-09-2024; 11:30am</p>
+                        <p class="seat-info">2 pax, F-3 F-4</p>
+                        <button class="edit-btn">Edit Details</button>
+                    </div>
+                    <div class="booking-price">2pax x $10 = $20</div>
+                </div>
+            </div>
+
+            <!-- Total Section -->
+            <div class="total-section">
+                <p class="total-amount">Total: $40</p>
+                <button class="checkout-btn" onclick="window.location.href='booking-particulars.html'">Check Out</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">CineBox</div>
+            <div class="footer-contact">
+                <h3>Contact Us!</h3>
+                <p>feedback@cinebox.com</p>
+            </div>
+            <div class="footer-address">
+                <h3>Visit Us!</h3>
+                <p>26 Street, 380381 Singapore</p>
+            </div>
+        </div>
+        <div class="footer-copyright">Copyright © 2024 CineBox Singapore</div>
+    </footer>
+</body>
+</html>

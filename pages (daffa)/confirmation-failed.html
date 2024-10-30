@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Failed - CineBox</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header Navigation -->
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo">CineBox</div>
+            <ul class="nav-menu">
+                <li><a href="#" class="nav-link">Home</a></li>
+                <li><a href="#" class="nav-link">Catalogue</a></li>
+                <li><a href="#" class="nav-link">My Bookings</a></li>
+            </ul>
+            <div class="user-icon"></div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <section class="failed-container">
+            <h1 class="status-title">Payment Failed</h1>
+            <p class="status-message">Please retry or change your payment method</p>
+            
+            <div class="status-icon failed"></div>
+            
+            <div class="action-buttons">
+                <button class="retry-btn" onclick="window.location.href='payment-success.html'">Retry Payment</button>
+                <button class="change-method-btn" onclick="window.location.href='payment-method.html'">Change Payment Method</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">CineBox</div>
+            <div class="footer-contact">
+                <h3>Contact Us!</h3>
+                <p>feedback@cinebox.com</p>
+            </div>
+            <div class="footer-address">
+                <h3>Visit Us!</h3>
+                <p>26 Street, 380381 Singapore</p>
+            </div>
+        </div>
+        <div class="footer-copyright">Copyright © 2024 CineBox Singapore</div>
+    </footer>
+</body>
+</html>
