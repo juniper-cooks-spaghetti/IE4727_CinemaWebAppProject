@@ -4,7 +4,9 @@ document.addEventListener('DOMContentLoaded', function() {
     carousels.forEach(function( carousel ) {
   
         const ele = carousel.querySelector('ul');
-        const amountvisible = Math.round(ele.offsetWidth/ele.querySelector('li:nth-child(1)').offsetWidth);
+        // const amountvisible = Math.round(ele.offsetWidth/ele.querySelector('li:nth-child(1)').offsetWidth);
+        // redundant because we only want to set 1 slide at a time
+        const amountvisible = 1;
         const bullets = carousel.querySelectorAll('ol li');
         const slides = carousel.querySelectorAll('ul li');
         const nextarrow = carousel.querySelector('.next');
@@ -95,7 +97,30 @@ document.addEventListener('DOMContentLoaded', function() {
             }
           }, carousel.getAttribute('duration'));
         }
-      
+        
+        // Set a timeout to remove 'interacted' after a period of inactivity
+        let interactionTimeout;
+        const resetInteraction = () => {
+        clearTimeout(interactionTimeout);
+        interactionTimeout = setTimeout(() => {
+            ele.classList.remove('interacted');
+        }, 5000); // Adjust timeout duration as needed
+        };
+
+        // Update interaction-related event listeners
+        ele.addEventListener("scroll", debounce(() => {
+        setSelected();
+        resetInteraction(); // Reset interaction timeout on scroll
+        }));
+        nextarrow.addEventListener("click", () => {
+        nextSlide();
+        resetInteraction(); // Reset interaction timeout on click
+        });
+        prevarrow.addEventListener("click", () => {
+        prevSlide();
+        resetInteraction(); // Reset interaction timeout on click
+        });
+
       
     }); //end foreach
   
