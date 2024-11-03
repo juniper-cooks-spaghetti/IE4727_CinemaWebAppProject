@@ -1,6 +1,8 @@
 <?php
-session_start();
-
+if (!isset($_SESSION['isSessionStarted'])) {
+    session_start();
+    $_SESSION['isSessionStarted'] = true;
+}
 function checkLogin() {
     if (!isset($_SESSION['user_id'])) {
         $_SESSION['error_message'] = "Please log in to access this page";

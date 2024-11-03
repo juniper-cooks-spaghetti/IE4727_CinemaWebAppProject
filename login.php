@@ -1,5 +1,8 @@
 <?php
-session_start();
+if (!isset($_SESSION['isSessionStarted'])) {
+    session_start();
+    $_SESSION['isSessionStarted'] = true;
+}
 
 // If user is already logged in, redirect to home page
 if(isset($_SESSION['user_id'])) {

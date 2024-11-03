@@ -1,5 +1,8 @@
 <?php
-session_start();
+if (!isset($_SESSION['isSessionStarted'])) {
+    session_start();
+    $_SESSION['isSessionStarted'] = true;
+}
 require_once 'check_session.php';
 checkLogin();
 

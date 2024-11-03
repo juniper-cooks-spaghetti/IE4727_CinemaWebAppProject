@@ -1,7 +1,7 @@
 <?php
-if (!isset($isSessionStarted)) {
+if (!isset($_SESSION['isSessionStarted'])) {
     session_start();
-    $isSessionStarted = true;
+    $_SESSION['isSessionStarted'] = true;
 }
 ?>
 <header>
