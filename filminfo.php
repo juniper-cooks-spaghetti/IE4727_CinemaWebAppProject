@@ -13,9 +13,20 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Retrieve and sanitize the 'movieid' param
+
+if (isset($_GET['movieid']) && is_numeric($_GET['movieid']))    {
+    $movieid = (int) $_GET['movieid']; //typecasting safety measure
+}
+
 // Query to get the first 4 movies
-$sql = "SELECT title, poster FROM movies";
-$result = $conn->query($sql);
+$sql = "SELECT title, genre, duration, synopsis, releasedate, poster FROM movies WHERE movieid = ?";
+$stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $movieid); // Bind 'movieid' as an integer
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($movie = $result->fetch_assoc()) {
 ?>
 
 <!DOCTYPE html>
@@ -39,12 +50,12 @@ $result = $conn->query($sql);
     </header>
     <div class="flex-container">
         <div class="poster-container">
-            <img src="https://picfiles.alphacoders.com/620/thumb-1920-620269.jpeg" alt="Image Description">
+            <img src="<?php echo htmlspecialchars($movie['poster']) . '?auto=compress&cs=tinysrgb&dpr=1&w=1500'; ?>" alt="Image Description">
         </div>
         <div class="text-container">
             <div class="movie-header">
             <button class="back-button" onclick="window.history.back();">←</button>
-            <h1 class="movie-title">Oppenheimer</h1>
+            <h1 class="movie-title"><?php echo htmlspecialchars($movie['title']); ?></h1>
             <button class="buy-tickets">Buy Tickets</button>
             </div>
             <hr>
@@ -52,50 +63,37 @@ $result = $conn->query($sql);
             <h2 class="section-title">Details</h2>
             <div class="details-container">
                 <div class="detail-row">
-                <div class="label">Cast</div>
-                <div class="value">Cillian Murphy, Emily Blunt, Josh Hartnett, Florence Pugh</div>
-                </div>
-                
-                <div class="detail-row">
-                <div class="label">Director</div>
-                <div class="value">Christopher Nolan</div>
-                </div>
-                
-                <div class="detail-row">
                 <div class="label">Genre</div>
-                <div class="value">Thriller, Historical Drama</div>
+                <div class="value"><?php echo htmlspecialchars($movie['genre']); ?></div>
                 </div>
                 
                 <div class="detail-row">
                 <div class="label">Release</div>
-                <div class="value">21 July 2023</div>
+                <div class="value"><?php echo htmlspecialchars($movie['releasedate']); ?></div>
                 </div>
                 
                 <div class="detail-row">
                 <div class="label">Runtime</div>
-                <div class="value">180 minutes</div>
+                <div class="value"><?php echo htmlspecialchars($movie['duration']); ?> minutes</div>
                 </div>
                 
-                <div class="detail-row">
-                <div class="label">Language</div>
-                <div class="value">English</div>
-                </div>
             </div>
             </div>
             <hr>
             <div class="synopsis-section">
             <h2 class="section-title">Synopsis</h2>
-            <p class="synopsis">
-                During World War II at Los Alamos Director Dr. opulists physicist J. Robert 
-                Oppenheimer works with a team of scientists on the top secret Manhattan Project. 
-                Dr. J team of scientists spend years working and designing the atomic bomb. Their work 
-                comes to fruition on July 16, 1945, as they witness the world's first nuclear 
-                explosion, forever changing the course of history.
-            </p>
+            <p class="synopsis"><?php echo htmlspecialchars($movie['synopsis']); ?></p>
             </div>
         </div>
     </div>
+    <?php
+    } else {
+        // Movie not found
+        echo "<p>Movie not found.</p>";
+    }
 
+    $stmt->close();
+    ?>
     <footer>
         <div class="footer-section">
             <h3>Contact Us!</h3>
@@ -111,3 +109,7 @@ $result = $conn->query($sql);
     </footer>
 </body>
 </html>
+
+<?php
+$conn->close();
+?>
