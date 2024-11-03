@@ -13,10 +13,10 @@ INSERT INTO Cinemas (Name, Address) VALUES
 ('CineBox North', '789 North Avenue, 380382 Singapore'),
 ('CineBox East', '456 East Road, 380383 Singapore');
 
--- Insert sample users
-INSERT INTO Users (Username, Email, PasswordHash, PhoneNumber) VALUES
-('john_doe', 'john@example.com', SHA2('password123', 256), '+6591234567'),
-('jane_smith', 'jane@example.com', SHA2('password456', 256), '+6592345678');
+-- Insert sample users with initialized timestamp fields
+INSERT INTO Users (Username, Email, PasswordHash, PhoneNumber, RememberToken, TokenCreatedAt, CreatedAt, UpdatedAt, LastLoginDate) VALUES
+('john_doe', 'john@example.com', SHA2('password123', 256), '+6591234567', NULL, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+('jane_smith', 'jane@example.com', SHA2('password456', 256), '+6592345678', NULL, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- Insert sample screenings
 INSERT INTO Screenings (MovieID, CinemaID, ScreeningTime, TicketPrice) VALUES
@@ -43,10 +43,10 @@ FROM (
          information_schema.columns LIMIT 50
 ) numbers;
 
--- Insert sample bookings and booked seats
-INSERT INTO Bookings (UserID, ScreeningID, BookingTime, TotalAmount) VALUES
-(1, 1, '2024-10-25 10:00:00', 30.00),
-(2, 2, '2024-10-25 11:00:00', 36.00);
+-- Insert sample bookings and booked seats (with CartID)
+INSERT INTO Bookings (CartID, UserID, ScreeningID, BookingTime, TotalAmount) VALUES
+('cart123', 1, 1, '2024-10-25 10:00:00', 30.00),
+('cart123', 1, 2, '2024-10-25 10:00:00', 36.00);
 
 -- Book some seats for the sample bookings
 INSERT INTO BookedSeats (BookingID, SeatID) VALUES

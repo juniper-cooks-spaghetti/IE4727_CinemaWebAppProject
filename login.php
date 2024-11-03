@@ -1,18 +1,15 @@
 <?php
-if (!isset($_SESSION['isSessionStarted'])) {
-    session_start();
-    $_SESSION['isSessionStarted'] = true;
-}
+require_once 'auth.inc.php';
 
 // If user is already logged in, redirect to home page
-if(isset($_SESSION['user_id'])) {
+if(isLoggedIn()) {
     header("Location: index.php");
     exit();
 }
 
 // Check for any error messages stored in session
 $error_message = isset($_SESSION['error_message']) ? $_SESSION['error_message'] : '';
-unset($_SESSION['error_message']); // Clear the error message after retrieving
+unset($_SESSION['error_message']); 
 ?>
 
 <!DOCTYPE html>

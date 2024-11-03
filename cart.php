@@ -1,11 +1,6 @@
 <?php
-if (!isset($_SESSION['isSessionStarted'])) {
-    session_start();
-    $_SESSION['isSessionStarted'] = true;
-}
-require_once 'check_session.php';
+require_once 'auth.inc.php';
 checkLogin();
-
 require_once 'cart_backend.php';
 $bookings = getBookings($_SESSION['user_id']);
 $totalAmount = calculateTotal($bookings);

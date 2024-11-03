@@ -1,14 +1,6 @@
 <?php
-if (!isset($_SESSION['isSessionStarted'])) {
-    session_start();
-    $_SESSION['isSessionStarted'] = true;
-}
-
-// Database connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "cinebox";
+require_once 'auth.inc.php';
+require_once 'db_config.php';
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
