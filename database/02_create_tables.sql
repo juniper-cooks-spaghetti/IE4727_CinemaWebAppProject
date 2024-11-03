@@ -17,7 +17,9 @@ CREATE TABLE Movies (
     ReleaseDate DATE,
     PRIMARY KEY (MovieID),
     INDEX idx_title (Title),
-    INDEX idx_release_date (ReleaseDate)
+    INDEX idx_release_date (ReleaseDate),
+    Thumbnail TEXT,
+    Poster TEXT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Create Cinemas table
