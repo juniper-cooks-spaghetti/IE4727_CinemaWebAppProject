@@ -1,6 +1,10 @@
 <?php
+session_start();
+require_once 'check_session.php';
+checkLogin();
+
 require_once 'cart_backend.php';
-$bookings = getBookings();
+$bookings = getBookings($_SESSION['user_id']);
 $totalAmount = calculateTotal($bookings);
 ?>
 
@@ -10,19 +14,11 @@ $totalAmount = calculateTotal($bookings);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Cinebox</title>
+    <title>CineBox</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body class="dark-theme">
-    <header>
-        <div class="logo">CineBox</div>
-        <nav>
-            <a href="index.php">Home</a>
-            <a href="#catalogue">Catalogue</a>
-            <a href="#cart" class="active">My Bookings</a>
-        </nav>
-        <div class="profile-icon">👤</div>
-    </header>
+    <?php include 'header.php'; ?>
     
     <div class="main-content booking-page">
         <h1 class="page-title">My Bookings</h1>
@@ -60,15 +56,15 @@ $totalAmount = calculateTotal($bookings);
     
     <footer>
         <div class="footer-section">
-            <div class="footer-logo">CineBox</div>
-        </div>
-        <div class="footer-section">
             <h3>Contact Us!</h3>
             <p>feedback@cinebox.com</p>
         </div>
         <div class="footer-section">
             <h3>Visit Us!</h3>
             <p>26 Street, 380381 Singapore</p>
+        </div>
+        <div class="footer-section">
+            <p>&copy; 2024 CineBox Singapore</p>
         </div>
     </footer>
     <script src="cart.js"></script>

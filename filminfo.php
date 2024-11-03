@@ -35,19 +35,11 @@ $stmt = $conn->prepare($sql);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Cinebox</title>
+    <title>CineBox</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-    <header>
-        <div class="logo">CineBox</div>
-        <nav>
-            <a href="">Home</a>
-            <a href="#catalogue">Catalogue</a>
-            <a href="#cart">My Bookings</a>
-        </nav>
-        <div class="profile-icon">👤</div>
-    </header>
+<body class="dark-theme">
+    <?php include 'header.php'; ?>
     <div class="flex-container">
         <div class="poster-container">
             <img src="<?php echo htmlspecialchars($movie['poster']) . '?auto=compress&cs=tinysrgb&dpr=1&w=1500'; ?>" alt="Image Description">

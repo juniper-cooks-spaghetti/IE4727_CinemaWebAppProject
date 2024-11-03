@@ -1,23 +1,21 @@
 <?php
-function getDatabaseConnection() {
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "cinebox";
+require_once 'db_config.php';
 
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+function getBookings($userId = null) {
+    if ($userId === null && isset($_SESSION['user_id'])) {
+        $userId = $_SESSION['user_id'];
+    }
+    
+    if ($userId === null) {
+        return [];
     }
 
-    return $conn;
-}
-
-function getBookings() {
-    $conn = getDatabaseConnection();
-    // For demo purposes, using UserID = 1. In production, get from session
-    $userId = 1;
+    $conn = new mysqli($GLOBALS['servername'], $GLOBALS['username'], $GLOBALS['password_db'], $GLOBALS['dbname']);
+    
+    if ($conn->connect_error) {
+        error_log("Connection failed: " . $conn->connect_error);
+        return [];
+    }
 
     $sql = "SELECT 
                 b.BookingID,
@@ -63,38 +61,4 @@ function calculateTotal($bookings) {
     return array_reduce($bookings, function($carry, $booking) {
         return $carry + $booking['total_amount'];
     }, 0);
-}
-
-// API endpoint for updating booking
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
-    header('Content-Type: application/json');
-    
-    switch ($_POST['action']) {
-        case 'edit_booking':
-            $response = handleEditBooking($_POST['booking_id']);
-            echo json_encode($response);
-            break;
-            
-        case 'delete_booking':
-            $response = handleDeleteBooking($_POST['booking_id']);
-            echo json_encode($response);
-            break;
-    }
-    exit;
-}
-
-function handleEditBooking($bookingId) {
-    // Implement editing logic here
-    return [
-        'success' => true,
-        'message' => 'Booking updated successfully'
-    ];
-}
-
-function handleDeleteBooking($bookingId) {
-    // Implement deletion logic here
-    return [
-        'success' => true,
-        'message' => 'Booking deleted successfully'
-    ];
 }

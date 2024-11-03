@@ -1,4 +1,5 @@
 <?php
+session_start();
 // Database connection
 $servername = "localhost";
 $username = "root";
@@ -24,19 +25,11 @@ $result = $conn->query($sql);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Cinebox</title>
+    <title>CineBox</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-    <header>
-        <div class="logo">CineBox</div>
-        <nav>
-            <a href="">Home</a>
-            <a href="#catalogue">Catalogue</a>
-            <a href="cart.php">My Bookings</a>
-        </nav>
-        <div class="profile-icon">👤</div>
-    </header>
+<body class="dark-theme">
+    <?php include 'header.php'; ?>
     
     <div class="carousel" duration="5000">
         <ul tabindex="0">
@@ -96,4 +89,3 @@ $result = $conn->query($sql);
 <?php
 $conn->close();
 ?>
-
