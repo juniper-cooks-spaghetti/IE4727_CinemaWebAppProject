@@ -33,7 +33,7 @@ $result = $conn->query($sql);
         <nav>
             <a href="">Home</a>
             <a href="#catalogue">Catalogue</a>
-            <a href="#cart">My Bookings</a>
+            <a href="cart.php">My Bookings</a>
         </nav>
         <div class="profile-icon">👤</div>
     </header>
