@@ -48,7 +48,10 @@ $stmt = $conn->prepare($sql);
             <div class="movie-header">
             <button class="back-button" onclick="window.history.back();">←</button>
             <h1 class="movie-title"><?php echo htmlspecialchars($movie['title']); ?></h1>
-            <button class="buy-tickets">Buy Tickets</button>
+            <form action="screenings.php" method="get" style="display:inline;">
+                <input type="hidden" name="movieid" value="<?php echo $movieid; ?>">
+                <button type="submit" class="buy-tickets">Buy Tickets</button>
+            </form>
             </div>
             <hr>
             <div class="details-section">

@@ -139,7 +139,7 @@ footer .footer-section h3 {
     .carousel:hover ul li div {
         opacity: 1;
     }
-    
+
     .carousel ul li div button {
         color: white; 
         background: white;
@@ -190,12 +190,7 @@ footer .footer-section h3 {
     @media only screen and (max-width: 600px) {
     .carousel ul li div {display: none;}
     }
-
-    /* DEMO CSS */
-    /* .carousel ul li:nth-child(2) {background-image: url(https://images8.alphacoders.com/133/1331131.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=1500);}
-    .carousel ul li:nth-child(3) {background-image: url(https://picfiles.alphacoders.com/537/537201.jpg?auto=compress&cs=tinysrgb&dpr=1&w=1500);}
-    .carousel ul li:nth-child(4) {background-image: url(https://images8.alphacoders.com/490/490727.jpg?auto=compress&cs=tinysrgb&dpr=1&w=1500);} */
-
+    
 .flex-container {
         display: flex;
       }
@@ -277,9 +272,9 @@ footer .footer-section h3 {
   }
 
 .buy-tickets {
-    position: right;
+    left: auto;
+    right: 0;
     bottom: 1rem;
-    right: 1rem;
     background-color: #dc2626;
     color: white;
     border: none;
