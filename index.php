@@ -14,7 +14,7 @@ if ($conn->connect_error) {
 }
 
 // Query to get the first 4 movies
-$sql = "SELECT title, thumbnail FROM movies LIMIT 4";
+$sql = "SELECT movieid, title, thumbnail FROM movies LIMIT 4";
 $result = $conn->query($sql);
 ?>
 
@@ -46,7 +46,11 @@ $result = $conn->query($sql);
               while ($row = $result->fetch_assoc()) {
                   echo '<li id="slide' . $slideIndex . '" style="background-image: url(' . htmlspecialchars($row['thumbnail']) . ');">';
                   echo '<div>' . htmlspecialchars($row['title']) . '<br />';
-                  echo '<a href="#">Book Now</a></div>';
+                //   echo '<a href="#">Book Now</a></div>';
+                  echo '<form action="filminfo.php" method="get" style="display:inline;">';
+                  echo '<input type="hidden" name="movieid" value="' . htmlspecialchars($row['movieid']) . '">';
+                  echo '<button type="submit">Book Now</button>';
+                  echo '</form></div>';
                   echo '</li>';
                   $slideIndex++;
               }
