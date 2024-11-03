@@ -1,8 +1,5 @@
 <?php
-if (!isset($_SESSION['isSessionStarted'])) {
-    session_start();
-    $_SESSION['isSessionStarted'] = true;
-}
+require_once 'auth.inc.php';
 ?>
 <header>
     <div class="logo">CineBox</div>
