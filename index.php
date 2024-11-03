@@ -49,7 +49,7 @@ $result = $conn->query($sql);
                 //   echo '<a href="#">Book Now</a></div>';
                   echo '<form action="filminfo.php" method="get" style="display:inline;">';
                   echo '<input type="hidden" name="movieid" value="' . htmlspecialchars($row['movieid']) . '">';
-                  echo '<button type="submit">Book Now</button>';
+                  echo '<button type="submit">View Movie</button>';
                   echo '</form></div>';
                   echo '</li>';
                   $slideIndex++;
