@@ -1,3 +1,23 @@
+<?php
+// Database connection
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "cinebox";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Query to get the first 4 movies
+$sql = "SELECT title, poster FROM movies";
+$result = $conn->query($sql);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,7 +43,7 @@
         </div>
         <div class="text-container">
             <div class="movie-header">
-            <button class="back-button">←</button>
+            <button class="back-button" onclick="window.history.back();">←</button>
             <h1 class="movie-title">Oppenheimer</h1>
             <button class="buy-tickets">Buy Tickets</button>
             </div>
