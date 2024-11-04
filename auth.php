@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     try {
-        $conn = new mysqli($servername, $username, $password_db, $dbname);
+        $conn = new mysqli($servername, $username_db, $password_db, $dbname);
 
         if ($conn->connect_error) {
             throw new Exception("Connection failed: " . $conn->connect_error);
