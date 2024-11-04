@@ -37,7 +37,7 @@ $result = $stmt->get_result();
     <title>CineBox</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-                /* Main Content and Catalogue Layout */
+        /* Main Content and Catalogue Layout */
         .main-content {
             padding: 2rem;
         }
@@ -75,7 +75,6 @@ $result = $stmt->get_result();
             position: relative;
             background-size: cover;
             background-position: center;
-            height: 350px;
             border-radius: 8px;
             overflow: hidden;
             display: flex;
@@ -84,24 +83,53 @@ $result = $stmt->get_result();
             color: white;
             text-align: center;
             transition: transform 0.3s ease;
-            flex: 0 0 calc(25% - 1rem); /* Show 4 items per row by default */
-            min-width: 250px; /* Minimum width for smaller screens */
+            flex: 0 0 calc(20% - 1rem); /* Show 5 items per row by default */
+            min-width: 200px; /* Minimum width for smaller screens */
+        }
+
+        /* Create 2:3 aspect ratio for movie posters */
+        .movie-container::after {
+            content: "";
+            display: block;
+            padding-bottom: 150%; /* Creates 2:3 aspect ratio (height = 1.5 × width) */
+        }
+
+        /* Position content absolutely within the container */
+        .movie-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
         }
 
         /* Responsive adjustments */
-        @media (max-width: 1200px) {
+        @media (max-width: 1400px) {
+            .movie-container {
+                flex: 0 0 calc(25% - 1rem); /* 4 items per row */
+            }
+        }
+
+        @media (max-width: 1100px) {
             .movie-container {
                 flex: 0 0 calc(33.333% - 1rem); /* 3 items per row */
             }
         }
 
-        @media (max-width: 900px) {
+        @media (max-width: 800px) {
             .movie-container {
                 flex: 0 0 calc(50% - 1rem); /* 2 items per row */
             }
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 500px) {
             .movie-container {
                 flex: 0 0 100%; /* 1 item per row */
             }
@@ -127,17 +155,6 @@ $result = $stmt->get_result();
             background-color: rgba(0, 0, 0, 0.2);
         }
 
-        /* Title and Button */
-        .movie-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: 1;
-        }
-
         .movie-container:hover .movie-content {
             opacity: 1;
         }
@@ -145,6 +162,7 @@ $result = $stmt->get_result();
         .movie-title {
             font-size: 1.2rem;
             margin-bottom: 0.5rem;
+            padding: 0 1rem;
         }
 
         .movie-container a {
