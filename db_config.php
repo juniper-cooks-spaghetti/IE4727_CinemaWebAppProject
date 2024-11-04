@@ -1,6 +1,6 @@
- <?php
+<?php
 $servername = "localhost";
-$username = "root";
+$username_db = "root";
 $password_db = "";
 $dbname = "cinebox";
 
