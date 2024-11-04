@@ -61,7 +61,7 @@ $result = $conn->query($sql);
     
     <div class="main-content">
         <h2>About Cinebox</h2>
-        <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."</p>
+        <p>"CineBox is a premier movie theater offering a top-tier cinema experience with crystal-clear screens, immersive sound, and comfortable seating. From blockbusters to indie films, CineBox has something for everyone, making it the perfect spot to enjoy movies in style."</p>
     </div>
     
     <script src="index.js"></script>

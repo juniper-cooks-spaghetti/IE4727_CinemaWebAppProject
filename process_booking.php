@@ -110,7 +110,7 @@ while ($row = $seats_result->fetch_assoc()) {
                 <div>$<?php echo number_format($total_amount, 2); ?></div>
             </div>
 
-            <form action="bookingconfirmed.php" method="POST">
+            <form action="cart.php" method="POST">
                 <input type="hidden" name="screening_id" value="<?php echo $screening_id; ?>">
                 <?php foreach($seats as $seat_id): ?>
                     <input type="hidden" name="seats[]" value="<?php echo $seat_id; ?>">

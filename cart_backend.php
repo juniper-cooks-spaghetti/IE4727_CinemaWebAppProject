@@ -66,7 +66,6 @@ function getBookings($userId = null) {
         $bookings[] = [
             'booking_id' => $row['BookingID'],
             'title' => $row['Title'],
-            'thumbnail' => $row['Thumbnail'],
             'screening_date' => date('D, d-m-Y; g:ia', strtotime($row['ScreeningTime'])),
             'seats' => $row['SeatNumbers'],
             'seat_count' => $row['SeatCount'],

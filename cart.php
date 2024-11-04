@@ -34,9 +34,9 @@ $totalAmount = calculateTotal($bookings);
                                 <p class="screening-time"><?php echo $booking['screening_date']; ?></p>
                                 <p class="seat-info"><?php echo $booking['seat_count']; ?> pax, <?php echo htmlspecialchars($booking['seats']); ?></p>
                             </div>
-                            <button class="edit-button">Edit Details</button>
+                            <!-- <button class="edit-button">Edit Details</button> -->
                             <div class="booking-price">
-                                <?php echo $booking['seat_count']; ?>pax x $10 = $<?php echo number_format($booking['total_amount'], 2); ?>
+                                $<?php echo number_format($booking['total_amount'], 2); ?>
                             </div>
                         </div>
                     <?php endforeach; ?>
