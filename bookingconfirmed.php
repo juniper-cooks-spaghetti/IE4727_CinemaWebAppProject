@@ -1,13 +1,10 @@
 <?php
-session_start();
-// Database connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "cinebox";
+require_once 'auth.inc.php';
+checkLogin();
+require_once 'db_config.php';
 
 // Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($servername, $username_db, $password_db, $dbname);
 
 // Check connection
 if ($conn->connect_error) {
@@ -19,15 +16,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $conn->begin_transaction();
 
     try {
-        // Generate CartID
-        $cart_id = uniqid();
-        
         // Create booking record
-        $booking_sql = "INSERT INTO bookings (CartID, UserID, ScreeningID, BookingTime, TotalAmount) 
-                       VALUES (?, ?, ?, NOW(), ?)";
+        $booking_sql = "INSERT INTO bookings (UserID, ScreeningID, BookingTime, TotalAmount) 
+                       VALUES (?, ?, NOW(), ?)";
         $booking_stmt = $conn->prepare($booking_sql);
         $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
-        $booking_stmt->bind_param("siid", $cart_id, $user_id, $_POST['screening_id'], $_POST['total_amount']);
+        $booking_stmt->bind_param("iid", $user_id, $_POST['screening_id'], $_POST['total_amount']);
         $booking_stmt->execute();
         $booking_id = $booking_stmt->insert_id;
 
@@ -138,9 +132,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <div class="button-group">
             <a href="index.php" class="action-button secondary-button">Back to Catalogue</a>
-            <a href="cart.php" class="action-button primary-button">Check Out</a>
+            <a href="mybookings.php" class="action-button primary-button">View My Bookings</a>
         </div>
     </div>
+
     <footer>
         <div class="footer-section">
             <h3>Contact Us!</h3>
@@ -154,7 +149,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <p>&copy; 2024 CineBox Singapore</p>
         </div>
     </footer>
-
 </body>
 </html>
 
