@@ -647,3 +647,197 @@ nav a.active {
     transform: translateY(0);
     pointer-events: all;
 }
+
+/* Payment-related styles */
+.back-link {
+    display: flex;
+    align-items: center;
+    color: #7AA7C7;
+    text-decoration: none;
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.back-arrow {
+    margin-right: 0.5rem;
+}
+
+.payment-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.payment-instruction {
+    color: #fff;
+    margin-bottom: 2rem;
+}
+
+.payment-methods {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.payment-method {
+    cursor: pointer;
+}
+
+.method-box {
+    width: 200px;
+    height: 150px;
+    background: #2A2A2A;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    transition: border-color 0.3s;
+}
+
+.method-box.selected {
+    border-color: #7AA7C7;
+}
+
+.method-box img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+}
+
+.method-box span {
+    color: #fff;
+}
+
+.proceed-button {
+    background: #DB0000;
+    color: white;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 4px;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.3s;
+}
+
+.proceed-button:enabled {
+    opacity: 1;
+}
+
+/* Result pages styles */
+.payment-result {
+    text-align: center;
+    padding: 3rem;
+}
+
+.result-title {
+    color: #7AA7C7;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.result-message {
+    color: #fff;
+    margin-bottom: 2rem;
+}
+
+.result-icon {
+    width: 100px;
+    height: 100px;
+    background: #2A2A2A;
+    border-radius: 50%;
+    margin: 2rem auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.checkmark {
+    width: 40px;
+    height: 40px;
+    position: relative;
+}
+
+.checkmark:before {
+    content: '';
+    position: absolute;
+    width: 3px;
+    height: 20px;
+    background: #fff;
+    transform: rotate(45deg);
+    right: 0;
+}
+
+.checkmark:after {
+    content: '';
+    position: absolute;
+    width: 3px;
+    height: 12px;
+    background: #fff;
+    transform: rotate(-45deg);
+    left: 0;
+    bottom: 0;
+}
+
+.cross {
+    width: 40px;
+    height: 40px;
+    position: relative;
+}
+
+.cross:before,
+.cross:after {
+    content: '';
+    position: absolute;
+    width: 3px;
+    height: 40px;
+    background: #fff;
+    top: 0;
+    left: 50%;
+}
+
+.cross:before {
+    transform: rotate(45deg);
+}
+
+.cross:after {
+    transform: rotate(-45deg);
+}
+
+.back-home-btn {
+    display: inline-block;
+    background: #7AA7C7;
+    color: white;
+    text-decoration: none;
+    padding: 0.8rem 2rem;
+    border-radius: 4px;
+    margin-top: 2rem;
+}
+
+.failed-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.retry-btn {
+    background: #DB0000;
+    color: white;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.change-method-btn {
+    background: #DB0000;
+    color: white;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 4px;
+    cursor: pointer;
+}
