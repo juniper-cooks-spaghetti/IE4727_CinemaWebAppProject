@@ -24,29 +24,22 @@ $totalAmount = calculateTotal($bookings);
         <div class="bookings-container">
             <div class="booking-list">
                 <?php if (!empty($bookings)): ?>
-                    <?php foreach ($bookings as $cart): ?>
-                        <?php foreach ($cart['items'] as $item): ?>
-                            <div class="booking-item">
-                                <div class="movie-poster">
-                                    <img src="<?php echo htmlspecialchars($item['poster']); ?>" 
-                                         alt="<?php echo htmlspecialchars($item['title']); ?> Poster">
-                                </div>
-                                <div class="booking-details">
-                                    <h2 class="movie-title"><?php echo htmlspecialchars($item['title']); ?></h2>
-                                    <p class="screening-time"><?php echo $item['screening_time']; ?></p>
-                                    <p class="seat-info"><?php echo substr_count($item['seats'], ',') + 1; ?> pax, <?php echo htmlspecialchars($item['seats']); ?></p>
-                                </div>
-                                <button class="edit-button">Edit Details</button>
-                                <div class="booking-price">
-                                    <?php 
-                                    $seat_count = substr_count($item['seats'], ',') + 1;
-                                    echo $seat_count . "pax x $10 = $" . number_format($seat_count * 10, 2); 
-                                    ?>
-                                </div>
+                    <?php foreach ($bookings as $booking): ?>
+                        <div class="booking-item">
+                        <div class="movie-poster">
+                            <img src="<?php echo htmlspecialchars($booking['poster']); ?>" alt="<?php echo htmlspecialchars($booking['title']); ?> Poster">
+                        </div>
+                            <div class="booking-details">
+                                <h2 class="movie-title"><?php echo htmlspecialchars($booking['title']); ?></h2>
+                                <p class="screening-time"><?php echo $booking['screening_date']; ?></p>
+                                <p class="seat-info"><?php echo $booking['seat_count']; ?> pax, <?php echo htmlspecialchars($booking['seats']); ?></p>
                             </div>
-                        <?php endforeach; ?>
+                            <button class="edit-button">Edit Details</button>
+                            <div class="booking-price">
+                                <?php echo $booking['seat_count']; ?>pax x $10 = $<?php echo number_format($booking['total_amount'], 2); ?>
+                            </div>
+                        </div>
                     <?php endforeach; ?>
-                    <div class="total-amount">Total: $<?php echo number_format($totalAmount, 2); ?></div>
                 <?php else: ?>
                     <p class="no-bookings">No bookings found</p>
                 <?php endif; ?>
@@ -54,6 +47,7 @@ $totalAmount = calculateTotal($bookings);
 
             <?php if (!empty($bookings)): ?>
                 <div class="cart-footer">
+                    <div class="total-amount">Total: $<?php echo number_format($totalAmount, 2); ?></div>
                     <button class="checkout-button">Check Out</button>
                 </div>
             <?php endif; ?>
