@@ -26,13 +26,15 @@ $totalAmount = calculateTotal($bookings);
                 <?php if (!empty($bookings)): ?>
                     <?php foreach ($bookings as $booking): ?>
                         <div class="booking-item">
-                        <div class="movie-poster">
-                            <img src="<?php echo htmlspecialchars($booking['poster']); ?>" alt="<?php echo htmlspecialchars($booking['title']); ?> Poster">
-                        </div>
+                            <div class="movie-poster">
+                                <img src="<?php echo htmlspecialchars($booking['poster']); ?>" 
+                                     alt="<?php echo htmlspecialchars($booking['title']); ?> Poster">
+                            </div>
                             <div class="booking-details">
                                 <h2 class="movie-title"><?php echo htmlspecialchars($booking['title']); ?></h2>
                                 <p class="screening-time"><?php echo $booking['screening_date']; ?></p>
-                                <p class="seat-info"><?php echo $booking['seat_count']; ?> pax, <?php echo htmlspecialchars($booking['seats']); ?></p>
+                                <p class="seat-info"><?php echo $booking['seat_count']; ?> pax, 
+                                   <?php echo htmlspecialchars($booking['seats']); ?></p>
                             </div>
                             <!-- <button class="edit-button">Edit Details</button> -->
                             <div class="booking-price">
@@ -41,16 +43,16 @@ $totalAmount = calculateTotal($bookings);
                         </div>
                     <?php endforeach; ?>
                 <?php else: ?>
-                    <p class="no-bookings">No bookings found</p>
+                    <p class="no-bookings">No pending bookings found</p>
                 <?php endif; ?>
             </div>
 
             <?php if (!empty($bookings)): ?>
                 <div class="cart-footer">
                     <div class="total-amount">Total: $<?php echo number_format($totalAmount, 2); ?></div>
-                        <form action="payment_method.php" method="GET">
-                            <button class="checkout-button" type="submit">Check Out</button>
-                        </form>
+                    <form action="payment_method.php" method="POST">
+                        <button type="submit" class="checkout-button">Check Out</button>
+                    </form>
                 </div>
             <?php endif; ?>
         </div>
@@ -69,6 +71,5 @@ $totalAmount = calculateTotal($bookings);
             <p>&copy; 2024 CineBox Singapore</p>
         </div>
     </footer>
-    <script src="cart.js"></script>
 </body>
 </html>
