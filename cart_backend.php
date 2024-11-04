@@ -1,7 +1,13 @@
 <?php
 require_once 'db_config.php';
 
+// Check if database configuration variables are set
+if (!isset($servername, $username_db, $password_db, $dbname)) {
+    die("Database configuration variables are not set.");
+}
+
 function getBookings($userId = null) {
+    // Check if userId is provided or fetch from session
     if ($userId === null && isset($_SESSION['user_id'])) {
         $userId = $_SESSION['user_id'];
     }
@@ -10,77 +16,71 @@ function getBookings($userId = null) {
         return [];
     }
 
-    $conn = new mysqli($GLOBALS['servername'], $GLOBALS['username_db'], $GLOBALS['password_db'], $GLOBALS['dbname']);
+    // Create a new mysqli connection
+    global $servername, $username_db, $password_db, $dbname; // Use global variables
+    $conn = new mysqli($servername, $username_db, $password_db, $dbname);
     
+    // Check for connection errors
     if ($conn->connect_error) {
         error_log("Connection failed: " . $conn->connect_error);
+        echo "Connection failed: " . htmlspecialchars($conn->connect_error); // Output error for debugging
         return [];
     }
 
-    // Modified query to group by CartID and include movie poster
+    // SQL query to fetch bookings
     $sql = "SELECT 
-                b.CartID,
-                GROUP_CONCAT(b.BookingID) as BookingIDs,
-                SUM(b.TotalAmount) as CartTotal,
-                GROUP_CONCAT(m.Title) as Titles,
-                GROUP_CONCAT(m.Poster) as Posters,
-                GROUP_CONCAT(s.ScreeningTime) as ScreeningTimes,
-                GROUP_CONCAT(
-                    (
-                        SELECT GROUP_CONCAT(CONCAT(st.Row, '-', st.Number))
-                        FROM BookedSeats bs2
-                        JOIN Seats st ON bs2.SeatID = st.SeatID
-                        WHERE bs2.BookingID = b.BookingID
-                        ORDER BY st.Row, st.Number
-                    )
-                ) as SeatNumbers,
-                SUM(
-                    (
-                        SELECT COUNT(*)
-                        FROM BookedSeats bs3
-                        WHERE bs3.BookingID = b.BookingID
-                    )
-                ) as TotalSeats
+                b.BookingID,
+                b.TotalAmount,
+                m.Title,
+                m.Poster,
+                s.ScreeningTime,
+                GROUP_CONCAT(CONCAT(st.Row, '-', st.Number) ORDER BY st.Row, st.Number) AS SeatNumbers,
+                COUNT(bs.SeatID) AS SeatCount
             FROM Bookings b
             JOIN Screenings s ON b.ScreeningID = s.ScreeningID
             JOIN Movies m ON s.MovieID = m.MovieID
+            JOIN BookedSeats bs ON b.BookingID = bs.BookingID
+            JOIN Seats st ON bs.SeatID = st.SeatID
             WHERE b.UserID = ?
-            GROUP BY b.CartID
-            ORDER BY MIN(b.BookingTime) DESC";
+            GROUP BY b.BookingID";
 
+    // Prepare and execute the statement
     $stmt = $conn->prepare($sql);
+    if (!$stmt) {
+        error_log("SQL prepare failed: " . htmlspecialchars($conn->error));
+        echo "SQL prepare failed: " . htmlspecialchars($conn->error); // Output error for debugging
+        $conn->close();
+        return [];
+    }
+
     $stmt->bind_param("i", $userId);
     $stmt->execute();
     $result = $stmt->get_result();
     
+    // Fetch bookings into an array
     $bookings = [];
     while ($row = $result->fetch_assoc()) {
-        // Split concatenated strings into arrays
-        $titles = explode(',', $row['Titles']);
-        $posters = explode(',', $row['Posters']);
-        $screeningTimes = explode(',', $row['ScreeningTimes']);
-        $seatNumbers = explode(',', $row['SeatNumbers']);
-        
-        // Format cart summary
-        $cartSummary = [];
-        for ($i = 0; $i < count($titles); $i++) {
-            $cartSummary[] = [
-                'title' => $titles[$i],
-                'poster' => $posters[$i],
-                'screening_time' => date('D, d-m-Y; g:ia', strtotime($screeningTimes[$i])),
-                'seats' => $seatNumbers[$i]
-            ];
-        }
+        // Debugging: Log the fetched row to see all fields
+        error_log(print_r($row, true)); // Log the row to see what data is being retrieved
 
         $bookings[] = [
-            'cart_id' => $row['CartID'],
-            'booking_ids' => explode(',', $row['BookingIDs']),
-            'items' => $cartSummary,
-            'total_seats' => $row['TotalSeats'],
-            'total_amount' => $row['CartTotal']
+            'booking_id' => $row['BookingID'],
+            'title' => $row['Title'],
+            'thumbnail' => $row['Thumbnail'],
+            'screening_date' => date('D, d-m-Y; g:ia', strtotime($row['ScreeningTime'])),
+            'seats' => $row['SeatNumbers'],
+            'seat_count' => $row['SeatCount'],
+            'poster' => $row['Poster'], // Check if this is populated correctly
+            'total_amount' => $row['TotalAmount']
         ];
     }
 
+    // Check if any bookings are retrieved
+    if (empty($bookings)) {
+        error_log("No bookings found for user ID: " . $userId);
+    }
+
+    // Clean up
     $stmt->close();
     $conn->close();
 
