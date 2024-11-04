@@ -48,7 +48,9 @@ $totalAmount = calculateTotal($bookings);
             <?php if (!empty($bookings)): ?>
                 <div class="cart-footer">
                     <div class="total-amount">Total: $<?php echo number_format($totalAmount, 2); ?></div>
-                    <button class="checkout-button">Check Out</button>
+                        <form action="payment_method.php" method="GET">
+                            <button class="checkout-button" type="submit">Check Out</button>
+                        </form>
                 </div>
             <?php endif; ?>
         </div>
