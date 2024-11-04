@@ -564,17 +564,21 @@ footer .footer-section h3 {
     align-items: center;
 }
 
-.user-profile {
-    position: relative;
-    cursor: pointer;
-}
-
 .profile-trigger {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     color: #8BB8E8;
+    padding: 0.5rem;  /* Add padding to increase clickable area */
+    margin: -0.5rem;  /* Offset padding to maintain original positioning */
 }
+
+.user-profile {
+    position: relative;
+    cursor: pointer;
+    padding: 0.5rem 0;  /* Add vertical padding */
+}
+
 
 .profile-icon {
     font-size: 1.5rem;
@@ -588,7 +592,7 @@ footer .footer-section h3 {
 
 .dropdown-menu {
     position: absolute;
-    top: 100%;
+    top: calc(100% - 0.5rem);
     right: 0;
     background: #2A2A2A;
     border-radius: 4px;
