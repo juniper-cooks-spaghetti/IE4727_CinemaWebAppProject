@@ -136,7 +136,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 
-    <?php include 'footer.php'; ?>
+    <footer>
+        <div class="footer-section">
+            <h3>Contact Us!</h3>
+            <p>feedback@cinebox.com</p>
+        </div>
+        <div class="footer-section">
+            <h3>Visit Us!</h3>
+            <p>26 Street, 380381 Singapore</p>
+        </div>
+        <div class="footer-section">
+            <p>&copy; 2024 CineBox Singapore</p>
+        </div>
+    </footer>
 </body>
 </html>
 
