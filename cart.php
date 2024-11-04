@@ -36,7 +36,13 @@ $totalAmount = calculateTotal($bookings);
                                 <p class="seat-info"><?php echo $booking['seat_count']; ?> pax, 
                                    <?php echo htmlspecialchars($booking['seats']); ?></p>
                             </div>
-                            <!-- <button class="edit-button">Edit Details</button> -->
+                            <form action="process_booking.php" method="POST" class="booking-form" 
+                                      onsubmit="return confirm('Are you sure you want to delete this booking?');">
+                                    <input type="hidden" name="booking_id" value="<?php echo $booking['booking_id']; ?>">
+                                    <button type="submit" name="action" value="delete" class="delete-button">
+                                        Delete
+                                    </button>
+                                </form>
                             <div class="booking-price">
                                 $<?php echo number_format($booking['total_amount'], 2); ?>
                             </div>
