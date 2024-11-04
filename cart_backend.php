@@ -10,28 +10,43 @@ function getBookings($userId = null) {
         return [];
     }
 
-    $conn = new mysqli($GLOBALS['servername'], $GLOBALS['username'], $GLOBALS['password_db'], $GLOBALS['dbname']);
+    $conn = new mysqli($GLOBALS['servername'], $GLOBALS['username_db'], $GLOBALS['password_db'], $GLOBALS['dbname']);
     
     if ($conn->connect_error) {
         error_log("Connection failed: " . $conn->connect_error);
         return [];
     }
 
+    // Modified query to group by CartID and include movie poster
     $sql = "SELECT 
-                b.BookingID,
-                b.TotalAmount,
-                m.Title,
-                m.Thumbnail,
-                s.ScreeningTime,
-                GROUP_CONCAT(CONCAT(st.Row, '-', st.Number) ORDER BY st.Row, st.Number) as SeatNumbers,
-                COUNT(bs.SeatID) as SeatCount
+                b.CartID,
+                GROUP_CONCAT(b.BookingID) as BookingIDs,
+                SUM(b.TotalAmount) as CartTotal,
+                GROUP_CONCAT(m.Title) as Titles,
+                GROUP_CONCAT(m.Poster) as Posters,
+                GROUP_CONCAT(s.ScreeningTime) as ScreeningTimes,
+                GROUP_CONCAT(
+                    (
+                        SELECT GROUP_CONCAT(CONCAT(st.Row, '-', st.Number))
+                        FROM BookedSeats bs2
+                        JOIN Seats st ON bs2.SeatID = st.SeatID
+                        WHERE bs2.BookingID = b.BookingID
+                        ORDER BY st.Row, st.Number
+                    )
+                ) as SeatNumbers,
+                SUM(
+                    (
+                        SELECT COUNT(*)
+                        FROM BookedSeats bs3
+                        WHERE bs3.BookingID = b.BookingID
+                    )
+                ) as TotalSeats
             FROM Bookings b
             JOIN Screenings s ON b.ScreeningID = s.ScreeningID
             JOIN Movies m ON s.MovieID = m.MovieID
-            JOIN BookedSeats bs ON b.BookingID = bs.BookingID
-            JOIN Seats st ON bs.SeatID = st.SeatID
             WHERE b.UserID = ?
-            GROUP BY b.BookingID";
+            GROUP BY b.CartID
+            ORDER BY MIN(b.BookingTime) DESC";
 
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $userId);
@@ -40,14 +55,29 @@ function getBookings($userId = null) {
     
     $bookings = [];
     while ($row = $result->fetch_assoc()) {
+        // Split concatenated strings into arrays
+        $titles = explode(',', $row['Titles']);
+        $posters = explode(',', $row['Posters']);
+        $screeningTimes = explode(',', $row['ScreeningTimes']);
+        $seatNumbers = explode(',', $row['SeatNumbers']);
+        
+        // Format cart summary
+        $cartSummary = [];
+        for ($i = 0; $i < count($titles); $i++) {
+            $cartSummary[] = [
+                'title' => $titles[$i],
+                'poster' => $posters[$i],
+                'screening_time' => date('D, d-m-Y; g:ia', strtotime($screeningTimes[$i])),
+                'seats' => $seatNumbers[$i]
+            ];
+        }
+
         $bookings[] = [
-            'booking_id' => $row['BookingID'],
-            'title' => $row['Title'],
-            'thumbnail' => $row['Thumbnail'],
-            'screening_date' => date('D, d-m-Y; g:ia', strtotime($row['ScreeningTime'])),
-            'seats' => $row['SeatNumbers'],
-            'seat_count' => $row['SeatCount'],
-            'total_amount' => $row['TotalAmount']
+            'cart_id' => $row['CartID'],
+            'booking_ids' => explode(',', $row['BookingIDs']),
+            'items' => $cartSummary,
+            'total_seats' => $row['TotalSeats'],
+            'total_amount' => $row['CartTotal']
         ];
     }
 
