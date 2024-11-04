@@ -7,6 +7,11 @@ if(isLoggedIn()) {
     exit();
 }
 
+// Store the referring page, but don't overwrite if already set
+if (!isset($_SESSION['redirect_after_login'])) {
+    $_SESSION['redirect_after_login'] = $_SERVER['HTTP_REFERER'] ?? 'index.php';
+}
+
 // Check for any error messages stored in session
 $error_message = isset($_SESSION['error_message']) ? $_SESSION['error_message'] : '';
 unset($_SESSION['error_message']); 
@@ -44,6 +49,7 @@ unset($_SESSION['error_message']);
 
             <div class="login-box">
                 <form id="loginForm" action="auth.php" method="POST">
+                    <input type="hidden" name="redirect" value="<?php echo htmlspecialchars($_SESSION['redirect_after_login']); ?>">
                     <div class="form-group">
                         <input type="email" id="email" name="email" placeholder="E-mail" required>
                     </div>

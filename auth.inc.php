@@ -1,5 +1,4 @@
 <?php
-// auth.inc.php
 if (!isset($_SESSION['isSessionStarted'])) {
     session_start();
     $_SESSION['isSessionStarted'] = true;
@@ -7,6 +6,7 @@ if (!isset($_SESSION['isSessionStarted'])) {
 
 function checkLogin() {
     if (!isset($_SESSION['user_id'])) {
+        $_SESSION['redirect_after_login'] = $_SERVER['REQUEST_URI'];
         $_SESSION['error_message'] = "Please log in to access this page";
         header("Location: login.php");
         exit();

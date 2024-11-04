@@ -5,6 +5,12 @@ require_once 'db_config.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
+    $redirect_url = $_POST['redirect'] ?? 'index.php';
+
+    // Validate redirect URL (security measure)
+    if (!filter_var($redirect_url, FILTER_VALIDATE_URL) && strpos($redirect_url, '/') !== 0) {
+        $redirect_url = 'index.php';
+    }
 
     if (empty($email) || empty($password)) {
         $_SESSION['error_message'] = "Please fill in all fields";
@@ -34,9 +40,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             if ($hashed_password === $user['PasswordHash']) {
                 loginUser($user);
+                unset($_SESSION['redirect_after_login']); // Clear the stored redirect URL
                 $stmt->close();
                 $conn->close();
-                header("Location: index.php");
+                header("Location: " . $redirect_url);
                 exit();
             }
         }
