@@ -19,7 +19,9 @@ CREATE TABLE Movies (
     INDEX idx_title (Title),
     INDEX idx_release_date (ReleaseDate),
     Thumbnail TEXT,
-    Poster TEXT
+    Poster TEXT,
+    Featured BOOLEAN DEFAULT FALSE,
+    INDEX idx_featured ON movies(Featured)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Create Cinemas table

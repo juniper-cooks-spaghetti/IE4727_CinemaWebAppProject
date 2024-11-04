@@ -11,7 +11,7 @@ if ($conn->connect_error) {
 }
 
 // Query to get the first 4 movies
-$sql = "SELECT movieid, title, thumbnail FROM movies LIMIT 4";
+$sql = "SELECT movieid, title, thumbnail FROM movies WHERE FEATURED = TRUE LIMIT 4";
 $result = $conn->query($sql);
 ?>
 

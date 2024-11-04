@@ -278,6 +278,13 @@ $formatted_time = $screening_datetime->format('H:i');
             screeningInput.value = screeningId;
             form.appendChild(screeningInput);
 
+            // Add total amount
+            const totalInput = document.createElement('input');
+            totalInput.type = 'hidden';
+            totalInput.name = 'total_amount';
+            totalInput.value = (selectedSeats.length * ticketPrice).toFixed(2);
+            form.appendChild(totalInput);
+            
             // Add selected seats
             selectedSeats.forEach(seatId => {
                 const seatInput = document.createElement('input');
