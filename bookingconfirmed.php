@@ -132,7 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <div class="button-group">
             <a href="index.php" class="action-button secondary-button">Back to Catalogue</a>
-            <a href="mybookings.php" class="action-button primary-button">View My Bookings</a>
+            <a href="cart.php" class="action-button primary-button">View My Bookings</a>
         </div>
     </div>
 
